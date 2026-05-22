@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QOIMAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C0C0C;
+  --bg2:#111111;
+  --bg3:#171717;
+  --bg4:#1C1C1C;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.1);
+  --border3:rgba(255,255,255,0.16);
+  --text:#F2F2F2;
+  --text2:rgba(255,255,255,0.45);
+  --text3:rgba(255,255,255,0.22);
+  --accent:#A78BFA;
+  --accent2:#8B5CF6;
+  --accent-bg:rgba(167,139,250,0.08);
+  --accent-border:rgba(167,139,250,0.2);
+  --kaspi:#E05252;
+  --kaspi-bg:rgba(224,82,82,0.07);
+  --kaspi-border:rgba(224,82,82,0.18);
+  --green:#34D399;
+  --green-bg:rgba(52,211,153,0.07);
+  --amber:#FBBF24;
+  --amber-bg:rgba(251,191,36,0.07);
+  --sh:0 1px 3px rgba(0,0,0,0.4),0 4px 20px rgba(0,0,0,0.3);
+  --sh-sm:0 1px 2px rgba(0,0,0,0.3);
+  --r:12px;
+  --r-sm:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* NAV */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:56px;
+  background:rgba(12,12,12,0.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 32px;
+}
+.nav-logo{font-size:17px;font-weight:700;letter-spacing:-0.3px;color:var(--text);}
+.nav-logo span{color:var(--accent);}
+.nav-tabs{display:flex;gap:2px;background:var(--bg3);border-radius:9px;padding:3px;border:1px solid var(--border);}
+.tab{padding:6px 16px;border-radius:7px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all 0.18s;}
+.tab:hover{color:var(--text);}
+.tab.on{background:var(--bg4);color:var(--text);border:1px solid var(--border2);}
+
+/* PAGES */
+.page{display:none;padding-top:56px;min-height:100vh;}
+.page.on{display:block;}
+#dash.on,#login.on{display:flex;}
+
+/* ── LANDING ── */
+#land{background:var(--bg);}
+
+/* noise/grid overlay */
+#land::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(167,139,250,0.09) 0%,transparent 65%);
+}
+.land-body{position:relative;z-index:1;}
+
+/* HERO */
+.hero{max-width:700px;margin:0 auto;padding:92px 24px 76px;text-align:center;}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent-bg);border:1px solid var(--accent-border);
+  border-radius:100px;padding:5px 14px;font-size:12px;font-weight:500;
+  color:var(--accent);margin-bottom:28px;letter-spacing:0.1px;
+}
+.hero-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:blink 2.2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+.hero h1{
+  font-size:clamp(40px,6.5vw,66px);font-weight:700;
+  color:var(--text);line-height:1.07;letter-spacing:-2px;margin-bottom:20px;
+}
+.hero h1 i{font-style:normal;color:var(--accent);}
+.hero-sub{font-size:16px;color:var(--text2);line-height:1.72;margin-bottom:36px;font-weight:300;max-width:520px;margin-left:auto;margin-right:auto;}
+.hero-row{display:flex;gap:10px;justify-content:center;}
+.btn-white{background:var(--text);color:#0C0C0C;border:none;padding:12px 26px;border-radius:var(--r-sm);font-size:14px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all 0.18s;}
+.btn-white:hover{background:rgba(242,242,242,0.88);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2);padding:12px 26px;border-radius:var(--r-sm);font-size:14px;font-weight:500;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all 0.18s;}
+.btn-ghost:hover{color:var(--text);border-color:var(--border3);}
+
+/* STATS */
+.stats-bar{
+  display:flex;max-width:660px;margin:52px auto 0;
+  border:1px solid var(--border);border-radius:var(--r);
+  background:rgba(255,255,255,0.02);overflow:hidden;
+}
+.sstat{flex:1;padding:22px 16px;text-align:center;border-right:1px solid var(--border);}
+.sstat:last-child{border-right:none;}
+.sstat-n{font-size:24px;font-weight:700;color:var(--text);letter-spacing:-0.5px;}
+.sstat-l{font-size:11px;color:var(--text3);margin-top:3px;text-transform:uppercase;letter-spacing:0.6px;}
+
+/* LOGO STRIP */
+.logo-strip{max-width:700px;margin:64px auto 0;padding:0 24px;text-align:center;}
+.logo-strip-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;}
+.logo-strip-row{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:rgba(255,255,255,0.015);}
+.lchip{flex:1;padding:14px 12px;border-right:1px solid var(--border);font-size:13px;font-weight:500;color:var(--text3);text-align:center;}
+.lchip:last-child{border-right:none;}
+.lchip span{display:block;font-size:10px;color:var(--text3);opacity:0.5;margin-top:2px;font-weight:400;}
+
+/* FEATURES */
+.section{max-width:980px;margin:0 auto;padding:80px 24px;}
+.sec-tag{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:1.3px;text-align:center;margin-bottom:10px;font-weight:600;}
+.sec-h{font-size:34px;font-weight:700;color:var(--text);text-align:center;letter-spacing:-1px;margin-bottom:8px;}
+.sec-p{font-size:15px;color:var(--text2);text-align:center;margin-bottom:48px;font-weight:300;}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.fc{background:var(--bg);padding:28px 24px;transition:background 0.2s;}
+.fc:hover{background:rgba(255,255,255,0.015);}
+.fci{font-size:19px;margin-bottom:14px;opacity:0.85;}
+.fct{font-size:14px;font-weight:600;color:var(--text);margin-bottom:7px;letter-spacing:-0.2px;}
+.fcd{font-size:13px;color:var(--text2);line-height:1.65;font-weight:300;}
+
+/* KASPI BLOCK */
+.kaspi-block{max-width:980px;margin:0 auto 80px;padding:0 24px;}
+.kaspi-inner{
+  background:var(--bg2);border:1px solid var(--border);border-radius:20px;
+  padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;
+  position:relative;overflow:hidden;
+}
+.kaspi-inner::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(224,82,82,0.4),transparent);
+}
+.kaspi-eyebrow{font-size:12px;color:var(--kaspi);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.kaspi-h{font-size:30px;font-weight:700;color:var(--text);letter-spacing:-0.8px;line-height:1.15;margin-bottom:14px;}
+.kaspi-p{font-size:15px;color:var(--text2);line-height:1.7;font-weight:300;margin-bottom:26px;}
+.kaspi-pills{display:flex;flex-direction:column;gap:10px;}
+.kp{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px;}
+.kp-icon{font-size:16px;margin-top:1px;flex-shrink:0;}
+.kp-t{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.kp-d{font-size:12px;color:var(--text2);}
+
+/* PRICING */
+.pricing{max-width:820px;margin:0 auto 80px;padding:0 24px;}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.plan{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px 24px;}
+.plan.hot{background:var(--accent2);border-color:var(--accent2);box-shadow:0 4px 32px rgba(139,92,246,0.25);}
+.plan-name{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:16px;}
+.plan.hot .plan-name{color:rgba(255,255,255,0.55);}
+.plan-price{font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--text);margin-bottom:3px;}
+.plan.hot .plan-price{color:#fff;}
+.plan-per{font-size:12px;color:var(--text3);margin-bottom:24px;}
+.plan.hot .plan-per{color:rgba(255,255,255,0.5);}
+.plan-list{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:24px;}
+.plan-list li{font-size:13px;color:var(--text2);display:flex;align-items:center;gap:8px;}
+.plan.hot .plan-list li{color:rgba(255,255,255,0.8);}
+.plan-list li::before{content:'·';font-size:22px;line-height:0;vertical-align:-1px;color:var(--text3);}
+.plan.hot .plan-list li::before{color:rgba(255,255,255,0.4);}
+.plan-btn{width:100%;padding:11px;border-radius:var(--r-sm);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text2);transition:all 0.18s;}
+.plan-btn:hover{color:var(--text);border-color:var(--border3);}
+.plan.hot .plan-btn{background:rgba(0,0,0,0.18);border-color:rgba(0,0,0,0.1);color:#fff;}
+
+.foot{border-top:1px solid var(--border);padding:26px;text-align:center;font-size:13px;color:var(--text3);}
+
+/* ── DASHBOARD ── */
+#dash{background:var(--bg);flex-direction:row;}
+
+.sidebar{
+  width:216px;flex-shrink:0;background:var(--bg2);
+  border-right:1px solid var(--border);
+  height:calc(100vh - 56px);position:sticky;top:56px;
+  padding:18px 10px;display:flex;flex-direction:column;gap:1px;overflow-y:auto;
+}
+.sb-logo{font-size:16px;font-weight:700;letter-spacing:-0.2px;padding:4px 10px 16px;border-bottom:1px solid var(--border);margin-bottom:10px;}
+.sb-logo span{color:var(--accent);}
+.sb-sec{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);padding:12px 10px 5px;}
+.sb-link{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all 0.15s;}
+.sb-link:hover{background:var(--bg3);color:var(--text);}
+.sb-link.on{background:var(--accent-bg);color:var(--accent);}
+.sb-badge{margin-left:auto;font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;}
+.sb-badge.r{background:var(--kaspi-bg);color:var(--kaspi);border:1px solid var(--kaspi-border);}
+.sb-badge.b{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-border);}
+.sb-user{margin-top:auto;border-top:1px solid var(--border);padding:14px 10px 2px;display:flex;align-items:center;gap:9px;}
+.sb-av{width:32px;height:32px;border-radius:8px;background:var(--accent2);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sb-un{font-size:13px;font-weight:600;}
+.sb-up{font-size:11px;color:var(--text3);}
+
+.d-main{flex:1;height:calc(100vh - 56px);overflow-y:auto;}
+.d-header{padding:22px 26px 0;display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;}
+.d-title{font-size:22px;font-weight:700;letter-spacing:-0.5px;}
+.d-sub{font-size:13px;color:var(--text3);margin-top:2px;}
+.d-btns{display:flex;gap:8px;}
+.d-btn{padding:8px 16px;border-radius:var(--r-sm);font-size:13px;font-weight:500;cursor:pointer;font-family:'Space Grotesk',sans-serif;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);transition:all 0.18s;}
+.d-btn:hover{color:var(--text);}
+.d-btn.p{background:var(--text);color:var(--bg);border-color:var(--text);}
+.d-btn.p:hover{background:rgba(242,242,242,0.9);}
+
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 26px 18px;}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh-sm);}
+.kpi-l{font-size:12px;color:var(--text3);margin-bottom:8px;}
+.kpi-v{font-size:24px;font-weight:700;letter-spacing:-0.8px;margin-bottom:5px;}
+.kpi-ch{font-size:12px;font-weight:500;}
+.kpi-ch.up{color:var(--green);}
+.kpi-ch.dn{color:var(--kaspi);}
+
+.d-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:10px;padding:0 26px 26px;}
+.d-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm);}
+.d-card-h{padding:15px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.d-card-t{font-size:14px;font-weight:600;}
+.pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;}
+.pill.g{background:var(--green-bg);color:var(--green);}
+.pill.r{background:var(--kaspi-bg);color:var(--kaspi);}
+.pill.b{background:var(--accent-bg);color:var(--accent);}
+.pill.a{background:var(--amber-bg);color:var(--amber);}
+
+/* bar chart */
+.chart-body{padding:18px 18px 12px;}
+.bars{display:flex;align-items:flex-end;gap:7px;height:110px;}
+.bc{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.b{width:100%;border-radius:4px 4px 0 0;cursor:pointer;transition:opacity 0.15s;}
+.b:hover{opacity:0.75;}
+.bl{font-size:10px;color:var(--text3);}
+
+/* table */
+.d-table{width:100%;border-collapse:collapse;}
+.d-table th{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;padding:10px 18px;border-bottom:1px solid var(--border);text-align:left;}
+.d-table td{padding:11px 18px;font-size:13px;border-bottom:1px solid var(--border);}
+.d-table tr:last-child td{border-bottom:none;}
+.d-table td.m{color:var(--text2);}
+
+/* kaspi orders */
+.ko{padding:13px 16px;border-bottom:1px solid var(--border);}
+.ko:last-child{border-bottom:none;}
+.ko-top{display:flex;justify-content:space-between;margin-bottom:4px;}
+.ko-id{font-size:11px;color:var(--text3);}
+.ko-price{font-size:13px;font-weight:700;}
+.ko-name{font-size:13px;font-weight:500;margin-bottom:5px;}
+.ko-st{font-size:11px;color:var(--text2);display:flex;align-items:center;gap:5px;}
+.kdot{width:5px;height:5px;border-radius:50%;}
+
+/* stock */
+.stock-row{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.stock-row:last-child{border-bottom:none;}
+.stock-ic{width:32px;height:32px;border-radius:7px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:14px;border:1px solid var(--border);flex-shrink:0;}
+.stock-n{font-size:13px;font-weight:500;}
+.stock-c{font-size:11px;color:var(--text3);}
+.stock-q{font-size:13px;font-weight:700;margin-left:auto;letter-spacing:-0.3px;}
+.stock-q.lo{color:var(--kaspi);}
+.stock-q.ok{color:var(--green);}
+
+/* ── LOGIN ── */
+#login{background:var(--bg);align-items:center;justify-content:center;}
+#login::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 50% at 50% 50%,rgba(167,139,250,0.07) 0%,transparent 65%);}
+
+.login-box{
+  width:400px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:20px;padding:40px 36px;box-shadow:var(--sh);
+  position:relative;z-index:1;
+}
+.login-box::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:160px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+.l-logo{font-size:20px;font-weight:700;text-align:center;margin-bottom:6px;letter-spacing:-0.3px;}
+.l-logo span{color:var(--accent);}
+.l-sub{text-align:center;font-size:14px;color:var(--text2);margin-bottom:32px;font-weight:300;}
+.l-label{display:block;font-size:13px;font-weight:500;color:var(--text2);margin-bottom:7px;}
+.l-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;padding:12px 14px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:14px;outline:none;transition:border 0.18s;margin-bottom:14px;}
+.l-input:focus{border-color:var(--accent);background:var(--bg4);}
+.l-input::placeholder{color:var(--text3);}
+.l-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.l-check{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text2);cursor:pointer;}
+.l-link{font-size:13px;color:var(--accent);cursor:pointer;}
+.l-btn{width:100%;background:var(--text);color:var(--bg);border:none;padding:13px;border-radius:9px;font-size:14px;font-weight:600;font-family:'Space Grotesk',sans-serif;cursor:pointer;margin-bottom:14px;transition:all 0.18s;}
+.l-btn:hover{background:rgba(242,242,242,0.9);}
+.l-div{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.l-div-l{flex:1;height:1px;background:var(--border);}
+.l-div-t{font-size:12px;color:var(--text3);}
+.l-kaspi{width:100%;background:var(--kaspi-bg);border:1px solid var(--kaspi-border);color:var(--kaspi);padding:12px;border-radius:9px;font-size:13px;font-weight:600;font-family:'Space Grotesk',sans-serif;cursor:pointer;transition:all 0.18s;}
+.l-kaspi:hover{background:rgba(224,82,82,0.12);}
+.l-reg{text-align:center;font-size:13px;color:var(--text2);margin-top:20px;}
+.l-reg a{color:var(--accent);font-weight:500;cursor:pointer;}
+.per-btn{padding:6px 14px;border-radius:6px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all 0.18s;}
+.per-btn:hover{color:var(--text);}
+.per-btn.on{background:var(--bg4);color:var(--text);border:1px solid var(--border2);}
+.sk-tab{padding:6px 14px;border-radius:6px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all 0.18s;}
+.sk-tab:hover{color:var(--text);}
+.sk-tab.on{background:var(--bg4);color:var(--text);border:1px solid var(--border2);}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">QOIM<span>AM</span></div>
+  <div class="nav-tabs">
+    <button class="tab on" onclick="go('land',this)">Главная</button>
+    <button class="tab" onclick="go('dash',this)">Дашборд</button>
+    <button class="tab" onclick="go('login',this)">Вход</button>
+  </div>
+</nav>
+
+<!-- LANDING -->
+<div id="land" class="page on">
+<div class="land-body">
+
+  <div class="hero">
+    <div class="hero-pill"><div class="hero-dot"></div>Kaspi.kz интеграция</div>
+    <h1>Управляй торговлей.<br><i>Без лишнего.</i></h1>
+    <p class="hero-sub">Облачная система складского учёта для малого и среднего бизнеса Казахстана. Склад, заказы, CRM и Kaspi — в одном окне.</p>
+    <div class="hero-row">
+      <button class="btn-white" onclick="go('login',document.querySelectorAll('.tab')[2])">Начать бесплатно</button>
+      <button class="btn-ghost" onclick="go('dash',document.querySelectorAll('.tab')[1])">Посмотреть демо</button>
+    </div>
+    <div class="stats-bar">
+      <div class="sstat"><div class="sstat-n">2 500+</div><div class="sstat-l">Компаний</div></div>
+      <div class="sstat"><div class="sstat-n">14 млрд ₸</div><div class="sstat-l">Оборот</div></div>
+      <div class="sstat"><div class="sstat-n">99.9%</div><div class="sstat-l">Uptime</div></div>
+      <div class="sstat"><div class="sstat-n">24/7</div><div class="sstat-l">Поддержка</div></div>
+    </div>
+  </div>
+
+  <div class="logo-strip">
+    <div class="logo-strip-label">Интегрировано с</div>
+    <div class="logo-strip-row">
+      <div class="lchip">Kaspi Магазин<span>Marketplace</span></div>
+      <div class="lchip">Kaspi Pay<span>Платежи</span></div>
+      <div class="lchip">1С<span>Бухгалтерия</span></div>
+      <div class="lchip">Wildberries<span>Маркетплейс</span></div>
+      <div class="lchip">Halyk Bank<span>Эквайринг</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-tag">Возможности</div>
+    <h2 class="sec-h">Всё на своём месте</h2>
+    <p class="sec-p">Один сервис вместо нескольких программ</p>
+    <div class="feat-grid">
+      <div class="fc"><div class="fci">📦</div><div class="fct">Складской учёт</div><div class="fcd">Остатки в реальном времени, приёмка, инвентаризация и штрихкоды</div></div>
+      <div class="fc"><div class="fci">🛒</div><div class="fct">Заказы и продажи</div><div class="fcd">Все каналы в одном окне. Накладные, статусы, история</div></div>
+      <div class="fc"><div class="fci">👥</div><div class="fct">CRM клиентов</div><div class="fcd">История покупок, задачи менеджеров, воронка продаж</div></div>
+      <div class="fc"><div class="fci">📊</div><div class="fct">Аналитика</div><div class="fcd">Дашборд, ABC-анализ товаров, финансовые отчёты</div></div>
+      <div class="fc"><div class="fci">🔗</div><div class="fct">Kaspi интеграция</div><div class="fcd">Kaspi Магазин и Kaspi Pay синхронизируются автоматически</div></div>
+      <div class="fc"><div class="fci">🤖</div><div class="fct">ИИ ассистент</div><div class="fcd">Прогноз остатков, анализ продаж, советы на основе данных</div></div>
+    </div>
+  </div>
+
+  <div class="kaspi-block">
+    <div class="kaspi-inner">
+      <div>
+        <div class="kaspi-eyebrow">Интеграция</div>
+        <div class="kaspi-h">Kaspi.kz внутри системы</div>
+        <p class="kaspi-p">Продаёте на Kaspi Магазине? Принимаете Kaspi Pay? Все заказы и оплаты попадают в систему автоматически — без ручного ввода и лишних действий.</p>
+        <button class="btn-white">Подключить Kaspi</button>
+      </div>
+      <div class="kaspi-pills">
+        <div class="kp"><div class="kp-icon">🛍</div><div><div class="kp-t">Kaspi Магазин API</div><div class="kp-d">Заказы, товары и статусы — синхронизация в реальном времени</div></div></div>
+        <div class="kp"><div class="kp-icon">💳</div><div><div class="kp-t">Kaspi Pay Webhook</div><div class="kp-d">Оплата подтверждается автоматически, QR-генерация</div></div></div>
+        <div class="kp"><div class="kp-icon">📈</div><div><div class="kp-t">Аналитика каналов</div><div class="kp-d">Сравнение Kaspi vs другие каналы продаж</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pricing">
+    <div class="sec-tag">Тарифы</div>
+    <h2 class="sec-h">Честные цены</h2>
+    <p class="sec-p" style="margin-bottom:36px;">Начни бесплатно, масштабируйся по мере роста</p>
+    <div class="plan-grid">
+      <div class="plan"><div class="plan-name">Старт</div><div class="plan-price">Бесплатно</div><div class="plan-per">навсегда</div><ul class="plan-list"><li>1 пользователь</li><li>100 товаров</li><li>Kaspi интеграция</li></ul><button class="plan-btn">Начать</button></div>
+      <div class="plan hot"><div class="plan-name">Бизнес</div><div class="plan-price">₸ 15 000</div><div class="plan-per">в месяц</div><ul class="plan-list"><li>5 пользователей</li><li>Без ограничений</li><li>CRM + аналитика</li><li>ИИ ассистент</li></ul><button class="plan-btn">Подключить</button></div>
+      <div class="plan"><div class="plan-name">Корпорация</div><div class="plan-price">₸ 45 000</div><div class="plan-per">в месяц</div><ul class="plan-list"><li>Без лимитов</li><li>Мультисклад</li><li>API доступ</li><li>Приоритет поддержка</li></ul><button class="plan-btn">Связаться</button></div>
+    </div>
+  </div>
+
+  <div class="foot">© 2025 QOIMAM — Торговля и склад для бизнеса Казахстана</div>
+</div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dash" class="page">
+  <aside class="sidebar">
+    <div class="sb-logo">QOIM<span>AM</span></div>
+    <div class="sb-sec">Меню</div>
+    <div class="sb-link on" onclick="dt('показатели',this)">📊 Показатели</div>
+    <div class="sb-link" onclick="dt('закупки',this)">🛍 Закупки</div>
+    <div class="sb-link" onclick="dt('продажа',this)">🛒 Продажа <span class="sb-badge b">12</span></div>
+    <div class="sb-link" onclick="dt('товары',this)">📦 Товары</div>
+    <div class="sb-link" onclick="dt('склад',this)">🏭 Склад</div>
+    <div class="sb-link" onclick="dt('ии',this)">🤖 ИИ</div>
+    <div class="sb-link" onclick="dt('настройки',this)">⚙️ Настройки</div>
+    <div class="sb-user">
+      <div class="sb-av">АС</div>
+      <div><div class="sb-un">Асель С.</div><div class="sb-up">Бизнес</div></div>
+    </div>
+  </aside>
+
+  <main class="d-main">
+
+    <!-- TAB: ПОКАЗАТЕЛИ -->
+    <div class="dtab" id="dt-показатели">
+      <div class="d-header">
+        <div><div class="d-title">Показатели</div><div class="d-sub">Бейсенбі, 21 мамыр 2026</div></div>
+        <div class="d-btns">
+          <div style="display:flex;gap:4px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px;">
+            <button class="per-btn on" onclick="setPeriod('week',this)">Апта</button>
+            <button class="per-btn" onclick="setPeriod('month',this)">Ай</button>
+            <button class="per-btn" onclick="setPeriod('year',this)">Жыл</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:0 26px 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+
+        <!-- SALES BLOCK -->
+        <div class="d-card">
+          <div style="padding:18px 20px 0;display:flex;align-items:center;gap:8px;">
+            <div style="font-size:13px;font-weight:700;color:var(--kaspi);">Сатылым</div>
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--kaspi);animation:blink 2s infinite;"></div>
+            <span style="font-size:11px;color:var(--text3);">Kaspi + тікелей</span>
+          </div>
+          <div style="padding:14px 20px;display:grid;grid-template-columns:1fr 1fr;gap:16px;border-bottom:1px solid var(--border);">
+            <div>
+              <div style="font-size:11px;color:var(--text3);margin-bottom:6px;" id="lbl-today">Бүгін, 21 мамыр</div>
+              <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:2px;">
+                <div style="font-size:28px;font-weight:700;color:var(--accent);letter-spacing:-1px;" id="val-orders">119</div>
+                <div style="font-size:13px;color:var(--text3);">тапсырыс</div>
+              </div>
+              <div style="font-size:22px;font-weight:700;letter-spacing:-0.5px;" id="val-revenue">719 070 ₸</div>
+              <div style="margin-top:6px;display:flex;align-items:center;gap:5px;">
+                <span style="font-size:13px;font-weight:600;color:var(--green);" id="val-diff">▲ 62 520 ₸ (10%)</span>
+              </div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px;" id="lbl-compare">Орташамен салыстырғанда</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--text3);margin-bottom:6px;" id="lbl-period">Осы аптада</div>
+              <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:2px;">
+                <div style="font-size:28px;font-weight:700;color:var(--accent);letter-spacing:-1px;" id="val-orders2">395</div>
+                <div style="font-size:13px;color:var(--text3);">тапсырыс</div>
+              </div>
+              <div style="font-size:22px;font-weight:700;letter-spacing:-0.5px;" id="val-revenue2">2 296 010 ₸</div>
+              <div style="margin-top:6px;display:flex;align-items:center;gap:5px;">
+                <span style="font-size:13px;font-weight:600;color:var(--kaspi);" id="val-diff2">▼ 2 203 646 ₸ (49%)</span>
+              </div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px;" id="lbl-compare2">Өткен аптамен салыстырғанда</div>
+            </div>
+          </div>
+          <!-- LINE CHART -->
+          <div style="padding:14px 20px 16px;">
+            <canvas id="salesChart" height="110" style="width:100%;display:block;"></canvas>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;" id="chart-labels">
+              <span style="font-size:10px;color:var(--text3);">пн</span>
+              <span style="font-size:10px;color:var(--text3);">вт</span>
+              <span style="font-size:10px;color:var(--text3);">ср</span>
+              <span style="font-size:10px;color:var(--text3);">чт</span>
+              <span style="font-size:10px;color:var(--text3);">пт</span>
+              <span style="font-size:10px;color:var(--text3);">сб</span>
+              <span style="font-size:10px;color:var(--text3);">вс</span>
+            </div>
+            <div style="display:flex;gap:16px;margin-top:10px;">
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);"><div style="width:20px;height:2px;background:var(--accent);border-radius:1px;"></div>Барлық сатылым</div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);"><div style="width:20px;height:2px;background:var(--kaspi);border-radius:1px;border-top:2px dashed var(--kaspi);"></div>Kaspi</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div style="display:flex;flex-direction:column;gap:12px;">
+
+          <!-- KASPI STATS -->
+          <div class="d-card">
+            <div style="padding:14px 18px 0;display:flex;align-items:center;justify-content:space-between;">
+              <div style="font-size:13px;font-weight:700;color:var(--kaspi);">Kaspi интеграция</div>
+              <span class="pill r">Live</span>
+            </div>
+            <div style="padding:12px 18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;border-bottom:1px solid var(--border);">
+              <div style="text-align:center;">
+                <div style="font-size:22px;font-weight:700;color:var(--accent);letter-spacing:-0.5px;" id="k-live-proc">—</div>
+                <div style="font-size:10px;color:var(--text3);margin-top:2px;">Тапсырыс</div>
+                <div style="font-size:11px;color:var(--green);margin-top:2px;" id="k-orders-pct">▲ +3</div>
+              </div>
+              <div style="text-align:center;border-left:1px solid var(--border);border-right:1px solid var(--border);">
+                <div style="font-size:22px;font-weight:700;letter-spacing:-0.5px;" id="k-live-rev">—</div>
+                <div style="font-size:10px;color:var(--text3);margin-top:2px;">Түсім</div>
+                <div style="font-size:11px;color:var(--green);margin-top:2px;" id="k-rev-pct">▲ 18.4%</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="font-size:22px;font-weight:700;color:var(--accent);letter-spacing:-0.5px;" id="k-share">49%</div>
+                <div style="font-size:10px;color:var(--text3);margin-top:2px;">Үлес</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:2px;">барлық сатылымнан</div>
+              </div>
+            </div>
+            <!-- Kaspi bar mini chart -->
+            <div style="padding:12px 18px;">
+              <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Kaspi vs Тікелей сатылым</div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:11px;color:var(--kaspi);">Kaspi Магазин</span><span style="font-size:11px;font-weight:600;" id="kaspi-bar-val">49%</span></div>
+                  <div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;"><div style="height:100%;background:var(--kaspi);border-radius:3px;transition:width 0.4s;" id="kaspi-bar" style="width:49%"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:11px;color:var(--accent);">Тікелей / Сайт</span><span style="font-size:11px;font-weight:600;" id="direct-bar-val">35%</span></div>
+                  <div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;"><div style="height:100%;background:var(--accent);border-radius:3px;transition:width 0.4s;" id="direct-bar" style="width:35%"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:11px;color:var(--green);">Басқа каналдар</span><span style="font-size:11px;font-weight:600;" id="other-bar-val">16%</span></div>
+                  <div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;"><div style="height:100%;background:var(--green);border-radius:3px;transition:width 0.4s;" id="other-bar" style="width:16%"></div></div>
+                </div>
+              </div>
+            </div>
+            <div id="kaspi-err" style="display:none;padding:8px 18px;font-size:12px;color:var(--amber);background:rgba(251,191,36,0.08);border-top:1px solid var(--border);"></div>
+          </div>
+
+          <!-- KASPI LIVE ORDERS -->
+          <div class="d-card">
+            <div class="d-card-h">
+              <div class="d-card-t">Kaspi белсенді заказдар</div>
+              <span id="k-live-total" class="pill r" style="font-size:12px;font-weight:700;">—</span>
+            </div>
+            <div id="kaspi-orders-list" style="max-height:280px;overflow-y:auto;">
+              <div style="padding:20px;text-align:center;color:var(--text3);font-size:13px;">Жүктелуде...</div>
+            </div>
+          </div>
+
+          <!-- OVERDUE -->
+          <div class="d-card">
+            <div style="padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);">
+              <div style="font-size:13px;font-weight:700;color:var(--kaspi);">Мерзімі өткен тапсырыстар</div>
+              <span id="overdue-badge" class="pill r">0</span>
+            </div>
+            <div style="padding:12px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px;border-bottom:1px solid var(--border);">
+              <div><div style="font-size:22px;font-weight:700;color:var(--accent);" id="overdue-count">0</div><div style="font-size:11px;color:var(--text3);">Тапсырыс</div></div>
+              <div><div style="font-size:22px;font-weight:700;" id="overdue-sum">0 ₸</div><div style="font-size:11px;color:var(--text3);">теңге</div></div>
+            </div>
+            <div style="padding:10px 18px 4px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;padding:6px 0 10px;border-bottom:1px solid var(--border);">
+                <div style="font-size:11px;color:var(--text3);font-weight:600;">Контрагент</div>
+                <div style="font-size:11px;color:var(--text3);font-weight:600;">Сумма</div>
+                <div style="font-size:11px;color:var(--text3);font-weight:600;">Мерзім</div>
+              </div>
+              <div style="padding:14px 0;text-align:center;font-size:12px;color:var(--text3);">Мерзімі өткен тапсырыстар жоқ ✓</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- MONEY BLOCK -->
+      <div style="padding:0 26px 26px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="d-card">
+          <div style="padding:14px 20px 0;">
+            <div style="font-size:13px;font-weight:700;color:var(--kaspi);margin-bottom:12px;">Қаражат</div>
+            <div style="font-size:30px;font-weight:700;letter-spacing:-1px;" id="money-total">107 206 964 ₸</div>
+            <div style="font-size:11px;color:var(--text3);margin-bottom:12px;margin-top:2px;">Жалпы қалдық</div>
+          </div>
+          <div style="padding:0 20px 8px;">
+            <div style="display:grid;grid-template-columns:1fr auto;padding:8px 0;border-bottom:1px solid var(--border);">
+              <div style="font-size:11px;color:var(--text3);font-weight:600;">Заңды тұлға</div>
+              <div style="font-size:11px;color:var(--text3);font-weight:600;">Қалдық</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr auto;padding:10px 0;border-bottom:1px solid var(--border);">
+              <div style="font-size:13px;">Kaspi Pay есепшоты</div>
+              <div style="font-size:13px;font-weight:600;">42 890 120 ₸</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr auto;padding:10px 0;border-bottom:1px solid var(--border);">
+              <div style="font-size:13px;">Halyk Bank</div>
+              <div style="font-size:13px;font-weight:600;">38 140 500 ₸</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr auto;padding:10px 0;">
+              <div style="font-size:13px;">Kassa (қолма-қол)</div>
+              <div style="font-size:13px;font-weight:600;">26 176 344 ₸</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-card">
+          <div style="padding:14px 18px 0;"><div style="font-size:13px;font-weight:700;color:var(--kaspi);margin-bottom:10px;">Кіріс / Шығыс динамикасы</div></div>
+          <div style="padding:0 18px 16px;">
+            <canvas id="moneyChart" height="130" style="width:100%;display:block;"></canvas>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;" id="money-labels">
+              <span style="font-size:10px;color:var(--text3);">пн</span>
+              <span style="font-size:10px;color:var(--text3);">вт</span>
+              <span style="font-size:10px;color:var(--text3);">ср</span>
+              <span style="font-size:10px;color:var(--text3);">чт</span>
+              <span style="font-size:10px;color:var(--text3);">пт</span>
+              <span style="font-size:10px;color:var(--text3);">сб</span>
+              <span style="font-size:10px;color:var(--text3);">вс</span>
+            </div>
+            <div style="display:flex;gap:16px;margin-top:10px;">
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);"><div style="width:12px;height:12px;background:rgba(52,211,153,0.5);border-radius:2px;"></div>Кіріс</div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);"><div style="width:12px;height:12px;background:rgba(224,82,82,0.4);border-radius:2px;"></div>Шығыс</div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);"><div style="width:20px;height:2px;background:var(--accent);"></div>Баланс</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: ЗАКУПКИ -->
+    <div class="dtab" id="dt-закупки" style="display:none;">
+      <div class="d-header">
+        <div><div class="d-title">Закупки</div><div class="d-sub">Управление поставками</div></div>
+        <div class="d-btns"><button class="d-btn p">+ Новая закупка</button></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-l">На закупку (месяц)</div><div class="kpi-v">₸ 2.4 млн</div><div class="kpi-ch up">↑ план выполнен</div></div>
+        <div class="kpi"><div class="kpi-l">Поставщиков</div><div class="kpi-v">18</div><div class="kpi-ch up">3 активных</div></div>
+        <div class="kpi"><div class="kpi-l">В ожидании</div><div class="kpi-v">4</div><div class="kpi-ch dn">↓ задержка</div></div>
+        <div class="kpi"><div class="kpi-l">Получено сегодня</div><div class="kpi-v">2</div><div class="kpi-ch up">↑ норма</div></div>
+      </div>
+      <div style="padding:0 26px 26px;">
+        <div class="d-card">
+          <div class="d-card-h"><div class="d-card-t">Активные закупки</div><span class="pill a">4 в ожидании</span></div>
+          <table class="d-table">
+            <thead><tr><th>№</th><th>Поставщик</th><th>Товаров</th><th>Сумма</th><th>Ожид. дата</th><th>Статус</th></tr></thead>
+            <tbody>
+              <tr><td class="m">#З-112</td><td>Samsung KZ</td><td>24 ед.</td><td>₸ 840 000</td><td>23 мая</td><td><span class="pill a">В пути</span></td></tr>
+              <tr><td class="m">#З-111</td><td>Apple Distribution</td><td>10 ед.</td><td>₸ 1 200 000</td><td>25 мая</td><td><span class="pill a">В пути</span></td></tr>
+              <tr><td class="m">#З-110</td><td>JBL Almaty</td><td>50 ед.</td><td>₸ 320 000</td><td>22 мая</td><td><span class="pill b">Оформлен</span></td></tr>
+              <tr><td class="m">#З-109</td><td>Xiaomi KZ</td><td>30 ед.</td><td>₸ 560 000</td><td>28 мая</td><td><span class="pill g">Получен</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: ПРОДАЖА -->
+    <div class="dtab" id="dt-продажа" style="display:none;">
+      <div class="d-header">
+        <div><div class="d-title">Продажа</div><div class="d-sub">Заказы и реализация</div></div>
+        <div class="d-btns"><button class="d-btn">Экспорт</button><button class="d-btn p">+ Новый заказ</button></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-l">Продаж сегодня</div><div class="kpi-v">47</div><div class="kpi-ch up">↑ 7 новых</div></div>
+        <div class="kpi"><div class="kpi-l">Выручка</div><div class="kpi-v">₸ 847 200</div><div class="kpi-ch up">↑ 18.4%</div></div>
+        <div class="kpi"><div class="kpi-l">Kaspi продаж</div><div class="kpi-v">23</div><div class="kpi-ch up">49% от всех</div></div>
+        <div class="kpi"><div class="kpi-l">Возвратов</div><div class="kpi-v">2</div><div class="kpi-ch dn">↑ обработать</div></div>
+      </div>
+      <div style="padding:0 26px 26px;">
+        <div class="d-card">
+          <div class="d-card-h"><div class="d-card-t">Все заказы</div><div style="display:flex;gap:6px;"><span class="pill b">Новые 12</span><span class="pill a">В работе 8</span><span class="pill g">Готовы 27</span></div></div>
+          <table class="d-table">
+            <thead><tr><th>Заказ</th><th>Клиент</th><th>Товары</th><th>Канал</th><th>Сумма</th><th>Статус</th></tr></thead>
+            <tbody>
+              <tr><td class="m">#4521</td><td>Дильназ А.</td><td>Samsung A35</td><td>Kaspi</td><td>₸ 34 500</td><td><span class="pill b">Новый</span></td></tr>
+              <tr><td class="m">#4520</td><td>Марат С.</td><td>JBL Tune 510</td><td>Сайт</td><td>₸ 12 000</td><td><span class="pill a">В работе</span></td></tr>
+              <tr><td class="m">#4519</td><td>Айгерим Н.</td><td>Redmi Pad SE</td><td>Kaspi</td><td>₸ 89 000</td><td><span class="pill g">Выполнен</span></td></tr>
+              <tr><td class="m">#4518</td><td>Нурлан Б.</td><td>AirPods Pro</td><td>Прямой</td><td>₸ 5 500</td><td><span class="pill g">Выполнен</span></td></tr>
+              <tr><td class="m">#4517</td><td>Жансая К.</td><td>iPhone 15 Pro</td><td>Kaspi</td><td>₸ 420 000</td><td><span class="pill a">В работе</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: ТОВАРЫ -->
+    <div class="dtab" id="dt-товары" style="display:none;">
+      <div class="d-header">
+        <div><div class="d-title">Товары</div><div class="d-sub">Каталог и цены</div></div>
+        <div class="d-btns"><button class="d-btn">Импорт</button><button class="d-btn p">+ Добавить товар</button></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-l">Всего товаров</div><div class="kpi-v">1 248</div><div class="kpi-ch up">↑ 12 новых</div></div>
+        <div class="kpi"><div class="kpi-l">Активных</div><div class="kpi-v">1 190</div><div class="kpi-ch up">95.4%</div></div>
+        <div class="kpi"><div class="kpi-l">Нет в наличии</div><div class="kpi-v">58</div><div class="kpi-ch dn">↓ пополнить</div></div>
+        <div class="kpi"><div class="kpi-l">Категорий</div><div class="kpi-v">24</div><div class="kpi-ch up">норма</div></div>
+      </div>
+      <div style="padding:0 26px 26px;">
+        <div class="d-card">
+          <div class="d-card-h"><div class="d-card-t">Каталог товаров</div><span class="pill b">1 248 позиций</span></div>
+          <table class="d-table">
+            <thead><tr><th>Артикул</th><th>Название</th><th>Категория</th><th>Цена продажи</th><th>Себест.</th><th>Остаток</th></tr></thead>
+            <tbody>
+              <tr><td class="m">A-0041</td><td>iPhone 15 Pro 256GB</td><td>Смартфоны</td><td>₸ 420 000</td><td>₸ 340 000</td><td><span class="pill r">2 шт</span></td></tr>
+              <tr><td class="m">A-0042</td><td>Samsung Galaxy A35</td><td>Смартфоны</td><td>₸ 145 000</td><td>₸ 110 000</td><td><span class="pill g">24 шт</span></td></tr>
+              <tr><td class="m">B-0018</td><td>AirPods Pro 2</td><td>Аудио</td><td>₸ 165 000</td><td>₸ 128 000</td><td><span class="pill r">1 шт</span></td></tr>
+              <tr><td class="m">B-0019</td><td>JBL Tune 510BT</td><td>Аудио</td><td>₸ 18 500</td><td>₸ 12 000</td><td><span class="pill g">48 шт</span></td></tr>
+              <tr><td class="m">C-0007</td><td>MacBook Air M3 256GB</td><td>Ноутбуки</td><td>₸ 590 000</td><td>₸ 470 000</td><td><span class="pill a">8 шт</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: СКЛАД -->
+    <div class="dtab" id="dt-склад" style="display:none;">
+      <div class="d-header">
+        <div><div class="d-title">Склад — Оприходования</div><div class="d-sub">Негізгі қойма · Classno · 148 позиция · 37 701 159 ₸</div></div>
+        <div class="d-btns">
+          <button class="d-btn" onclick="exportCSV()">CSV экспорт</button>
+          <button class="d-btn p">+ Оприходование</button>
+        </div>
+      </div>
+
+      <!-- Sub-tabs -->
+      <div style="padding:0 26px 0;display:flex;gap:0;border-bottom:1px solid var(--border);">
+        <div style="display:flex;gap:0;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px;margin:12px 0;">
+          <button class="sk-tab on" onclick="skt('opri',this)">Оприходования</button>
+          <button class="sk-tab" onclick="skt('spis',this)">Списания</button>
+          <button class="sk-tab" onclick="skt('perem',this)">Перемещения</button>
+          <button class="sk-tab" onclick="skt('ost',this)">Остатки</button>
+        </div>
+      </div>
+
+      <!-- ОПРИХОДОВАНИЯ -->
+      <div class="sk-pane" id="sk-opri">
+        <div class="kpi-row">
+          <div class="kpi"><div class="kpi-l">Барлық позиция</div><div class="kpi-v">148</div><div class="kpi-ch up">↑ Негізгі қойма</div></div>
+          <div class="kpi"><div class="kpi-l">Жалпы қалдық</div><div class="kpi-v">19 332 дана</div><div class="kpi-ch up">↑ норма</div></div>
+          <div class="kpi"><div class="kpi-l">Нөлдік қалдық</div><div class="kpi-v">4</div><div class="kpi-ch dn">↓ Тапсырыс беру</div></div>
+          <div class="kpi"><div class="kpi-l">Аз қалған (≤10)</div><div class="kpi-v">25</div><div class="kpi-ch dn">↓ Толықтыру</div></div>
+        </div>
+
+        <div style="padding:0 26px 26px;">
+          <!-- Search and filter -->
+          <div style="display:flex;gap:10px;margin-bottom:12px;align-items:center;">
+            <input id="prod-search" style="flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 14px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;outline:none;" placeholder="Тауар атауы немесе артикул бойынша іздеу..." oninput="filterProducts()">
+            <select id="prod-filter" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;outline:none;" onchange="filterProducts()">
+              <option value="all">Барлығы</option>
+              <option value="ok">Норма</option>
+              <option value="low">Аз (≤10)</option>
+              <option value="zero">Нөл</option>
+            </select>
+            <div id="prod-count" style="font-size:12px;color:var(--text3);white-space:nowrap;">148 позиция</div>
+          </div>
+
+          <div class="d-card" style="overflow:hidden;">
+            <div style="overflow-x:auto;max-height:600px;overflow-y:auto;">
+              <table class="d-table" style="min-width:750px;">
+                <thead style="position:sticky;top:0;background:var(--bg2);z-index:1;">
+                  <tr>
+                    <th style="width:32px;">№</th>
+                    <th onclick="sortTable('name')" style="cursor:pointer;">Тауар атауы ↕</th>
+                    <th onclick="sortTable('id')" style="cursor:pointer;text-align:right;">Артикул</th>
+                    <th onclick="sortTable('stock')" style="cursor:pointer;text-align:right;">Қалдық ↕</th>
+                    <th onclick="sortTable('buy')" style="cursor:pointer;text-align:right;">Закуп ₸ ↕</th>
+                    <th onclick="sortTable('sell')" style="cursor:pointer;text-align:right;">Сату ₸ ↕</th>
+                    <th style="text-align:right;">Сумма ₸</th>
+                    <th style="text-align:center;">Күй</th>
+                  </tr>
+                </thead>
+                <tbody id="prod-tbody"></tbody>
+              </table>
+            </div>
+            <div id="prod-total" style="padding:12px 18px;border-top:1px solid var(--border);font-size:13px;color:var(--text2);display:flex;justify-content:space-between;">
+              <span>Жалпы: <strong>148 позиция</strong></span>
+              <span>Қойма құны: <strong style="color:var(--green);">21 777 998 ₸</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- СПИСАНИЯ -->
+      <div class="sk-pane" id="sk-spis" style="display:none;">
+        <div style="padding:40px;text-align:center;color:var(--text3);"><div style="font-size:32px;margin-bottom:12px;">📋</div><div style="font-size:14px;">Списания жоқ</div></div>
+      </div>
+      <!-- ПЕРЕМЕЩЕНИЯ -->
+      <div class="sk-pane" id="sk-perem" style="display:none;">
+        <div style="padding:40px;text-align:center;color:var(--text3);"><div style="font-size:32px;margin-bottom:12px;">🔄</div><div style="font-size:14px;">Перемещения жоқ</div></div>
+      </div>
+      <!-- ОСТАТКИ -->
+      <div class="sk-pane" id="sk-ost" style="display:none;">
+        <div style="padding:16px 26px 26px;">
+          <div class="d-card">
+            <div class="d-card-h"><div class="d-card-t">Қазіргі қалдықтар</div><span class="pill b">148 позиция</span></div>
+            <div style="overflow-x:auto;max-height:500px;overflow-y:auto;">
+              <table class="d-table" style="min-width:600px;" id="ost-table"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: ИИ -->
+    <div class="dtab" id="dt-ии" style="display:none;">
+      <div class="d-header">
+        <div><div class="d-title">ИИ ассистент</div><div class="d-sub">Умный анализ вашего бизнеса</div></div>
+      </div>
+      <div style="padding:0 26px 26px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="d-card">
+            <div class="d-card-h"><div class="d-card-t">💡 Инсайты</div><span class="pill b">3 новых</span></div>
+            <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
+              <div style="background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:14px;">
+                <div style="font-size:13px;font-weight:600;margin-bottom:5px;">📈 Суббота — лучший день</div>
+                <div style="font-size:12px;color:var(--text2);">За последние 4 недели выручка в субботу на 34% выше среднего. Рекомендую усилить акции в этот день.</div>
+              </div>
+              <div style="background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:14px;">
+                <div style="font-size:13px;font-weight:600;margin-bottom:5px;">⚠️ iPhone 15 Pro заканчивается</div>
+                <div style="font-size:12px;color:var(--text2);">Осталось 2 шт, при текущем темпе продаж хватит на 1.5 дня. Рекомендую срочно сделать закупку.</div>
+              </div>
+              <div style="background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:14px;">
+                <div style="font-size:13px;font-weight:600;margin-bottom:5px;">🔴 Kaspi — 49% продаж</div>
+                <div style="font-size:12px;color:var(--text2);">Почти половина продаж идёт через Kaspi. Стоит рассмотреть расширение ассортимента на площадке.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-card" style="display:flex;flex-direction:column;">
+          <div class="d-card-h"><div class="d-card-t">🤖 Чат с ИИ</div><span class="pill g">Online</span></div>
+          <div style="flex:1;padding:16px;display:flex;flex-direction:column;gap:10px;min-height:320px;">
+            <div style="background:var(--bg3);border-radius:9px;padding:12px 14px;max-width:85%;"><div style="font-size:12px;color:var(--text3);margin-bottom:4px;">ИИ</div><div style="font-size:13px;color:var(--text2);">Привет! Я анализирую ваши данные. Чем могу помочь?</div></div>
+            <div style="background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:9px;padding:12px 14px;max-width:85%;align-self:flex-end;"><div style="font-size:13px;">Что лучше всего продаётся этой неделе?</div></div>
+            <div style="background:var(--bg3);border-radius:9px;padding:12px 14px;max-width:90%;"><div style="font-size:12px;color:var(--text3);margin-bottom:4px;">ИИ</div><div style="font-size:13px;color:var(--text2);">На этой неделе топ продаж: Samsung A35 (24 шт), JBL Tune 510BT (18 шт), Redmi Pad SE (12 шт). Выручка от топ-3 составляет 68% от общей.</div></div>
+          </div>
+          <div style="padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;">
+            <input style="flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;outline:none;" placeholder="Спросить ИИ...">
+            <button class="d-btn p" style="padding:9px 14px;">↑</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: НАСТРОЙКИ -->
+    <div class="dtab" id="dt-настройки" style="display:none;">
+      <div class="d-header">
+        <div><div class="d-title">Настройки</div><div class="d-sub">Аккаунт и интеграции</div></div>
+        <div class="d-btns"><button class="d-btn p">Сохранить</button></div>
+      </div>
+      <div style="padding:0 26px 26px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="d-card">
+            <div class="d-card-h"><div class="d-card-t">Профиль компании</div></div>
+            <div style="padding:18px;display:flex;flex-direction:column;gap:14px;">
+              <div><div style="font-size:12px;color:var(--text3);margin-bottom:5px;">Название компании</div><input style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;outline:none;" value="Асель Сейткали ИП"></div>
+              <div><div style="font-size:12px;color:var(--text3);margin-bottom:5px;">Email</div><input style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;outline:none;" value="asel@example.kz"></div>
+              <div><div style="font-size:12px;color:var(--text3);margin-bottom:5px;">БИН</div><input style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;outline:none;" value="123456789012"></div>
+              <div><div style="font-size:12px;color:var(--text3);margin-bottom:5px;">Город</div><input style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;outline:none;" value="Алматы"></div>
+            </div>
+          </div>
+          <div class="d-card">
+            <div class="d-card-h"><div class="d-card-t">Тариф</div><span class="pill b">Бизнес</span></div>
+            <div style="padding:16px 18px;">
+              <div style="font-size:13px;color:var(--text2);margin-bottom:12px;">Следующее списание: <strong style="color:var(--text);">1 июня 2026 — ₸ 15 000</strong></div>
+              <button class="d-btn" style="font-size:12px;">Сменить тариф</button>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="d-card">
+            <div class="d-card-h"><div class="d-card-t">Интеграции</div></div>
+            <div style="padding:4px 0;">
+              <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+                <div><div style="font-size:13px;font-weight:600;">🔴 Kaspi Магазин</div><div style="font-size:11px;color:var(--green);margin-top:2px;">● Подключён</div></div>
+                <button class="d-btn" style="font-size:12px;padding:6px 12px;">Настроить</button>
+              </div>
+              <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+                <div><div style="font-size:13px;font-weight:600;">💳 Kaspi Pay</div><div style="font-size:11px;color:var(--green);margin-top:2px;">● Подключён</div></div>
+                <button class="d-btn" style="font-size:12px;padding:6px 12px;">Настроить</button>
+              </div>
+              <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+                <div><div style="font-size:13px;font-weight:600;">📦 1С Бухгалтерия</div><div style="font-size:11px;color:var(--text3);margin-top:2px;">○ Не подключён</div></div>
+                <button class="d-btn p" style="font-size:12px;padding:6px 12px;">Подключить</button>
+              </div>
+              <div style="padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
+                <div><div style="font-size:13px;font-weight:600;">🛒 Wildberries</div><div style="font-size:11px;color:var(--text3);margin-top:2px;">○ Не подключён</div></div>
+                <button class="d-btn p" style="font-size:12px;padding:6px 12px;">Подключить</button>
+              </div>
+            </div>
+          </div>
+          <div class="d-card">
+            <div class="d-card-h"><div class="d-card-t">Уведомления</div></div>
+            <div style="padding:4px 0;">
+              <div style="padding:12px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;">Новый заказ</span><span class="pill g">Вкл</span></div>
+              <div style="padding:12px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;">Мало товара</span><span class="pill g">Вкл</span></div>
+              <div style="padding:12px 18px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;">Еженедельный отчёт</span><span class="pill a">Email</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- LOGIN -->
+<div id="login" class="page">
+  <div class="login-box">
+    <div class="l-logo">QOIM<span>AM</span></div>
+    <div class="l-sub">Войдите в свой аккаунт</div>
+    <label class="l-label">Email или телефон</label>
+    <input class="l-input" type="text" placeholder="+7 (777) 000-00-00">
+    <label class="l-label">Пароль</label>
+    <input class="l-input" type="password" placeholder="••••••••">
+    <div class="l-row">
+      <label class="l-check"><input type="checkbox" checked> Запомнить</label>
+      <a class="l-link">Забыли пароль?</a>
+    </div>
+    <button class="l-btn" onclick="go('dash',document.querySelectorAll('.tab')[1])">Войти</button>
+    <div class="l-div"><div class="l-div-l"></div><div class="l-div-t">или</div><div class="l-div-l"></div></div>
+    <button class="l-kaspi">Войти через Kaspi ID</button>
+    <div class="l-reg">Нет аккаунта? <a>Зарегистрироваться</a></div>
+  </div>
+</div>
+
+<script>
+function go(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  if(btn) btn.classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='dash') { setTimeout(initCharts,100); setTimeout(loadKaspiData,200); }
+}
+function skt(name,btn){
+  document.querySelectorAll('.sk-pane').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.sk-tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('sk-'+name).style.display='block';
+  btn.classList.add('on');
+}
+function dt(name,btn){
+  document.querySelectorAll('.dtab').forEach(t=>t.style.display='none');
+  document.querySelectorAll('.sb-link').forEach(b=>b.classList.remove('on'));
+  document.getElementById('dt-'+name).style.display='block';
+  btn.classList.add('on');
+  if(name==='показатели') { setTimeout(initCharts,100); setTimeout(loadKaspiData,300); }
+}
+
+const periods = {
+  week:{
+    lbl1:'Бүгін, 21 мамыр', orders1:'119', rev1:'719 070 ₸', diff1:'▲ 62 520 ₸ (10%)', diffUp1:true, cmp1:'Орташамен салыстырғанда',
+    lbl2:'Осы аптада', orders2:'395', rev2:'2 296 010 ₸', diff2:'▼ 2 203 646 ₸ (49%)', diffUp2:false, cmp2:'Өткен аптамен салыстырғанда',
+    kOrders:'23', kRev:'847 200 ₸', kPct:'▲ 18.4%', kShare:'49%',
+    kaspiBar:49, directBar:35, otherBar:16,
+    money:'107 206 964 ₸',
+    salesTotal:[320000,480000,290000,720000,610000,950000,580000],
+    salesKaspi:[140000,220000,120000,380000,280000,490000,260000],
+    incomeData:[280000,420000,260000,680000,560000,870000,500000],
+    expenseData:[120000,180000,110000,290000,240000,380000,210000],
+    balanceData:[160000,240000,150000,390000,320000,490000,290000],
+    xLabels:['пн','вт','ср','чт','пт','сб','вс'],
+    moneyLabels:['пн','вт','ср','чт','пт','сб','вс'],
+  },
+  month:{
+    lbl1:'Осы ай', orders1:'1 240', rev1:'8 430 000 ₸', diff1:'▲ 1 430 000 ₸ (20%)', diffUp1:true, cmp1:'Өткен аймен салыстырғанда',
+    lbl2:'Барлығы (май)', orders2:'1 240', rev2:'8 430 000 ₸', diff2:'▲ 980 000 ₸ (13%)', diffUp2:true, cmp2:'Квартал орташасымен',
+    kOrders:'612', kRev:'4 130 000 ₸', kPct:'▲ 22.1%', kShare:'49%',
+    kaspiBar:49, directBar:32, otherBar:19,
+    money:'107 206 964 ₸',
+    salesTotal:[1.8,2.1,1.6,2.4,2.8,3.2,2.9,3.5,2.6,3.8,4.1,3.7,4.4,3.9,4.8,4.2,5.1,4.6,5.4,4.9,5.8,5.2,6.1,5.6,6.4,5.9,6.8,6.2,7.1,6.5],
+    salesKaspi:[0.9,1.0,0.8,1.2,1.4,1.6,1.4,1.7,1.3,1.9,2.0,1.8,2.1,1.9,2.4,2.1,2.5,2.3,2.6,2.4,2.8,2.5,3.0,2.7,3.1,2.9,3.3,3.0,3.5,3.2],
+    incomeData:[1.6,1.9,1.4,2.1,2.5,2.9,2.6,3.1,2.3,3.4,3.7,3.3,3.9,3.5,4.3,3.8,4.6,4.1,4.8,4.4,5.2,4.7,5.5,5.0,5.8,5.3,6.1,5.5,6.4,5.9],
+    expenseData:[0.7,0.9,0.6,1.0,1.2,1.4,1.2,1.5,1.1,1.6,1.8,1.5,1.9,1.7,2.1,1.8,2.2,2.0,2.3,2.1,2.5,2.2,2.7,2.4,2.8,2.5,2.9,2.6,3.1,2.8],
+    balanceData:[0.9,1.0,0.8,1.1,1.3,1.5,1.4,1.6,1.2,1.8,1.9,1.8,2.0,1.8,2.2,2.0,2.4,2.1,2.5,2.3,2.7,2.5,2.8,2.6,3.0,2.8,3.2,2.9,3.3,3.1],
+    xLabels:Array.from({length:30},(_,i)=>i+1+''),
+    moneyLabels:Array.from({length:30},(_,i)=>i+1+''),
+  },
+  year:{
+    lbl1:'Осы жыл', orders1:'14 820', rev1:'98 400 000 ₸', diff1:'▲ 18 200 000 ₸ (23%)', diffUp1:true, cmp1:'Өткен жылмен салыстырғанда',
+    lbl2:'Жыл бойынша', orders2:'14 820', rev2:'98 400 000 ₸', diff2:'▲ 12 400 000 ₸ (14%)', diffUp2:true, cmp2:'Жоспармен салыстырғанда',
+    kOrders:'7 260', kRev:'48 200 000 ₸', kPct:'▲ 31.4%', kShare:'49%',
+    kaspiBar:49, directBar:30, otherBar:21,
+    money:'107 206 964 ₸',
+    salesTotal:[42,48,38,55,62,58,72,68,75,80,88,95],
+    salesKaspi:[18,22,16,26,30,28,36,33,37,39,43,47],
+    incomeData:[38,43,34,50,57,52,66,62,68,73,81,88],
+    expenseData:[18,21,16,24,28,25,32,30,33,36,40,43],
+    balanceData:[20,22,18,26,29,27,34,32,35,37,41,45],
+    xLabels:['Қаң','Ақп','Нау','Сәу','Мам','Мау','Шіл','Там','Қыр','Қаз','Қар','Жел'],
+    moneyLabels:['Қаң','Ақп','Нау','Сәу','Мам','Мау','Шіл','Там','Қыр','Қаз','Қар','Жел'],
+  }
+};
+
+let salesChart=null, moneyChart=null, currentPeriod='week';
+
+function initCharts(){
+  const p=periods[currentPeriod];
+  const sc=document.getElementById('salesChart');
+  const mc=document.getElementById('moneyChart');
+  if(!sc||!mc) return;
+  if(salesChart){salesChart.destroy();salesChart=null;}
+  if(moneyChart){moneyChart.destroy();moneyChart=null;}
+
+  const grid={color:'rgba(255,255,255,0.05)',lineWidth:0.5};
+  const tickStyle={color:'rgba(255,255,255,0.25)',font:{size:10,family:'Space Grotesk'}};
+
+  salesChart=new Chart(sc,{
+    type:'line',
+    data:{
+      labels:p.xLabels,
+      datasets:[
+        {label:'Барлық сатылым',data:p.salesTotal,borderColor:'rgba(167,139,250,0.9)',backgroundColor:'rgba(167,139,250,0.06)',borderWidth:2,tension:0.4,pointRadius:2,pointBackgroundColor:'rgba(167,139,250,0.9)',fill:true},
+        {label:'Kaspi',data:p.salesKaspi,borderColor:'rgba(224,82,82,0.85)',backgroundColor:'transparent',borderWidth:2,borderDash:[4,3],tension:0.4,pointRadius:2,pointBackgroundColor:'rgba(224,82,82,0.85)',fill:false}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(17,17,17,0.95)',titleColor:'#fff',bodyColor:'rgba(255,255,255,0.6)',borderColor:'rgba(255,255,255,0.08)',borderWidth:1,padding:10,callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toLocaleString('ru')+(currentPeriod!=='year'?' ₸':'M ₸')}}},scales:{x:{display:false,grid:{display:false}},y:{display:true,grid,ticks:{...tickStyle,callback:v=>currentPeriod==='month'?v+'M':(currentPeriod==='year'?v+'M':v>=1000000?(v/1000000).toFixed(1)+'M':v>=1000?(v/1000)+'k':v)},border:{display:false}}}}
+  });
+
+  moneyChart=new Chart(mc,{
+    type:'bar',
+    data:{
+      labels:p.moneyLabels,
+      datasets:[
+        {label:'Кіріс',data:p.incomeData,backgroundColor:'rgba(52,211,153,0.45)',borderRadius:3,order:2},
+        {label:'Шығыс',data:p.expenseData,backgroundColor:'rgba(224,82,82,0.35)',borderRadius:3,order:2},
+        {label:'Баланс',data:p.balanceData,type:'line',borderColor:'rgba(167,139,250,0.9)',borderWidth:2,tension:0.4,pointRadius:0,fill:false,order:1}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(17,17,17,0.95)',titleColor:'#fff',bodyColor:'rgba(255,255,255,0.6)',borderColor:'rgba(255,255,255,0.08)',borderWidth:1,padding:10}},scales:{x:{display:false,grid:{display:false},stacked:false},y:{display:true,grid,ticks:{...tickStyle,callback:v=>v+'M'},border:{display:false}}}}
+  });
+
+  // update labels
+  const lbls=document.getElementById('chart-labels');
+  if(lbls) lbls.innerHTML=p.xLabels.map(l=>`<span style="font-size:10px;color:var(--text3);">${l}</span>`).join('');
+  const mlbls=document.getElementById('money-labels');
+  if(mlbls) mlbls.innerHTML=p.moneyLabels.map(l=>`<span style="font-size:10px;color:var(--text3);">${l}</span>`).join('');
+}
+
+function setPeriod(p,btn){
+  currentPeriod=p;
+  document.querySelectorAll('.per-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const d=periods[p];
+  document.getElementById('lbl-today').textContent=d.lbl1;
+  document.getElementById('val-orders').textContent=d.orders1;
+  document.getElementById('val-revenue').textContent=d.rev1;
+  document.getElementById('val-diff').textContent=d.diff1;
+  document.getElementById('val-diff').style.color=d.diffUp1?'var(--green)':'var(--kaspi)';
+  document.getElementById('lbl-compare').textContent=d.cmp1;
+  document.getElementById('lbl-period').textContent=d.lbl2;
+  document.getElementById('val-orders2').textContent=d.orders2;
+  document.getElementById('val-revenue2').textContent=d.rev2;
+  document.getElementById('val-diff2').textContent=d.diff2;
+  document.getElementById('val-diff2').style.color=d.diffUp2?'var(--green)':'var(--kaspi)';
+  document.getElementById('lbl-compare2').textContent=d.cmp2;
+  document.getElementById('k-orders').textContent=d.kOrders;
+  document.getElementById('k-revenue').textContent=d.kRev;
+  document.getElementById('k-rev-pct').textContent=d.kPct;
+  document.getElementById('k-share').textContent=d.kShare;
+  document.getElementById('kaspi-bar').style.width=d.kaspiBar+'%';
+  document.getElementById('kaspi-bar-val').textContent=d.kaspiBar+'%';
+  document.getElementById('direct-bar').style.width=d.directBar+'%';
+  document.getElementById('direct-bar-val').textContent=d.directBar+'%';
+  document.getElementById('other-bar').style.width=d.otherBar+'%';
+  document.getElementById('other-bar-val').textContent=d.otherBar+'%';
+  document.getElementById('money-total').textContent=d.money;
+  initCharts();
+}
+
+
+// ========== СКЛАД PRODUCTS DATA ==========
+const ALL_PRODUCTS = [
+  {id:'241235696',name:'Простой штатив CS-PH1111 черный',qty:361,stock:2146,buy:850,sell:1290,status:'ok'},
+  {id:'115932179',name:'Лампочка 15ват',qty:300,stock:892,buy:230,sell:380,status:'ok'},
+  {id:'133227473',name:'Лампочка 50ват',qty:50,stock:303,buy:900,sell:1400,status:'ok'},
+  {id:'999524182',name:'Лампа М-26',qty:20,stock:165,buy:1000,sell:1600,status:'ok'},
+  {id:'970316907',name:'ЗН Acer CS-Ac007 LP514 19V 4.74A',qty:29,stock:38,buy:1634,sell:2600,status:'ok'},
+  {id:'616239656',name:'ЗН Acer CS-A11 19V 3.42A 5.5x1.7мм',qty:19,stock:107,buy:1559,sell:2400,status:'ok'},
+  {id:'218235477',name:'ЗН Acer CS-Ac342T 19V 3.42A 3.0x1.1мм',qty:18,stock:98,buy:1559,sell:2400,status:'ok'},
+  {id:'125677517',name:'SIL-ORA AirPods Pro 3 оранжевый',qty:50,stock:51,buy:112,sell:200,status:'ok'},
+  {id:'412197805',name:'ЗН HP CS-H462 19.5V 4.62A',qty:5,stock:235,buy:1625,sell:2500,status:'ok'},
+  {id:'130623147',name:'SIL AirPods 4 прозрачный',qty:10,stock:150,buy:200,sell:350,status:'ok'},
+  {id:'360562448',name:'ЗН Lenovo 90W 20V 4.5A 5.5x2.5',qty:8,stock:91,buy:1625,sell:2500,status:'ok'},
+  {id:'312533905',name:'ЗН Asus 65W 19V 3.42A 4.0x1.35мм',qty:22,stock:45,buy:2112,sell:3300,status:'ok'},
+  {id:'852664139',name:'CLASSNO RGB CS-P225',qty:5,stock:36,buy:7000,sell:11000,status:'ok'},
+  {id:'283359932',name:'Стекло 6/7mini',qty:10,stock:61,buy:300,sell:500,status:'ok'},
+  {id:'794045108',name:'ЗН Lenovo 20V 3.25A 65W 5.5x2.5мм',qty:4,stock:0,buy:2070,sell:3200,status:'zero'},
+  {id:'825437522',name:'Чехол планшет RM A16 серый',qty:160,stock:428,buy:1533,sell:2400,status:'ok'},
+  {id:'964634472',name:'Чехол планшет RM A16 розовый',qty:120,stock:294,buy:1533,sell:2400,status:'ok'},
+  {id:'809308290',name:'SIL-PN AirPods Pro 3 розовый',qty:50,stock:77,buy:112,sell:200,status:'ok'},
+  {id:'746726184',name:'SIL-PN AirPods 4 розовый',qty:253,stock:316,buy:112,sell:200,status:'ok'},
+  {id:'391634656',name:'Sil-BLU AirPods Pro 3 синий',qty:50,stock:53,buy:112,sell:200,status:'ok'},
+  {id:'097307597',name:'SIL-BLK AirPods Pro 3 черный',qty:30,stock:71,buy:112,sell:200,status:'ok'},
+  {id:'752456156',name:'Пленка Macbook Air 15.3',qty:20,stock:27,buy:540,sell:900,status:'ok'},
+  {id:'819961035',name:'Пленка 13.6 Macbook Air',qty:250,stock:54,buy:540,sell:900,status:'ok'},
+  {id:'726840510',name:'Пленка Air 13.3',qty:151,stock:87,buy:540,sell:900,status:'ok'},
+  {id:'253920733',name:'Чехол iPad KB-LC Air 11 сиреневый',qty:30,stock:103,buy:3234,sell:5000,status:'ok'},
+  {id:'925013454',name:'Чехол KB-PN iPad A16 розовый',qty:150,stock:330,buy:3227,sell:5000,status:'ok'},
+  {id:'323079735',name:'Чехол iPad KB-LC A16 сиреневый',qty:60,stock:214,buy:3227,sell:5000,status:'ok'},
+  {id:'605751597',name:'Чехол KB-BLK A16 черный',qty:90,stock:188,buy:3227,sell:5000,status:'ok'},
+  {id:'579327925',name:'ЗН TYPE-C 5-20V 3.25A 65W',qty:5,stock:34,buy:2037,sell:3200,status:'ok'},
+  {id:'100237006',name:'Чехол iPad KB-LBL A16 голубой',qty:120,stock:152,buy:3227,sell:5000,status:'ok'},
+  {id:'999524184',name:'Лампа RL-14',qty:40,stock:122,buy:6300,sell:9500,status:'ok'},
+  {id:'999524185',name:'Лампа RL-18',qty:12,stock:69,buy:10100,sell:15000,status:'ok'},
+  {id:'855166409',name:'AirPods Pro 3 прозрачный',qty:33,stock:101,buy:150,sell:280,status:'ok'},
+  {id:'915504413',name:'ЗН Зарядка Lenovo USB 4.5A 90W',qty:8,stock:64,buy:1709,sell:2700,status:'ok'},
+  {id:'432677485',name:'ЗН HP CS-H333 19.5V 3.33A',qty:10,stock:33,buy:1596,sell:2500,status:'ok'},
+  {id:'933267842',name:'CLASSNO LED CS-YM200',qty:1,stock:1,buy:4500,sell:7000,status:'low'},
+  {id:'999524183',name:'Лампа Y-320',qty:10,stock:57,buy:3650,sell:5500,status:'ok'},
+  {id:'190678397',name:'ЗН Asus 65W 19V 3.42A 5.5x2.5 с шнуром',qty:5,stock:15,buy:2000,sell:3100,status:'ok'},
+  {id:'697614677',name:'Стекло основной Air 11',qty:16,stock:46,buy:300,sell:500,status:'ok'},
+  {id:'377452033',name:'Чехол Samsung Galaxy Buds прозрачный',qty:12,stock:41,buy:60,sell:120,status:'ok'},
+  {id:'097304164',name:'Стилус CLASSNO CS-ST01 Universal Pen белый',qty:12,stock:25,buy:1500,sell:2400,status:'ok'},
+  {id:'999524186',name:'Лампа RL-21',qty:6,stock:70,buy:11500,sell:17000,status:'ok'},
+  {id:'759166964',name:'Чехол планшет ZP A16 серый',qty:80,stock:143,buy:1158,sell:1800,status:'ok'},
+  {id:'068375300',name:'Чехол планшет ZP A16 сиреневый',qty:80,stock:179,buy:1158,sell:1800,status:'ok'},
+  {id:'903732615',name:'Чехол планшет ZP Air 11 серый',qty:120,stock:65,buy:1158,sell:1800,status:'ok'},
+  {id:'450457679',name:'Чехол CLASSNO ZP Xiaomi Redmi Pad серый',qty:40,stock:6,buy:1233,sell:1900,status:'low'},
+  {id:'513968036',name:'Чехол CLASSNO ZP-LBL A16 голубой',qty:120,stock:52,buy:1158,sell:1800,status:'ok'},
+  {id:'148748967',name:'Чехол CLASSNO ZP-LC Xiaomi Redmi Pad сиреневый',qty:80,stock:97,buy:1233,sell:1900,status:'ok'},
+  {id:'706062061',name:'Чехол планшет RM A16 сиреневый',qty:40,stock:159,buy:1533,sell:2400,status:'ok'},
+  {id:'729259232',name:'Чехол планшет RM Air 11 серый',qty:40,stock:287,buy:533,sell:900,status:'ok'},
+  {id:'537686262',name:'Чехол планшет RM Air 11 сиреневый',qty:80,stock:99,buy:1533,sell:2400,status:'ok'},
+  {id:'553196620',name:'Чехол CLASSNO RM-LC Pro 11 2024 сиреневый',qty:10,stock:6,buy:1533,sell:2400,status:'low'},
+  {id:'799445664',name:'Чехол CLASSNO RM-LBL Air 11 голубой',qty:40,stock:77,buy:1533,sell:2400,status:'ok'},
+  {id:'261395174',name:'RM-PN iPad mini 6/7 розовый',qty:15,stock:21,buy:1533,sell:2400,status:'ok'},
+  {id:'999524178',name:'Лампа MJ-26',qty:360,stock:90,buy:1404,sell:2200,status:'ok'},
+  {id:'999524179',name:'Лампа MJ-33',qty:360,stock:81,buy:1854,sell:2900,status:'ok'},
+  {id:'999524187',name:'Лампа PL-26',qty:80,stock:183,buy:1629,sell:2500,status:'ok'},
+  {id:'505892731',name:'RNG AirPods 4 черный',qty:30,stock:19,buy:658,sell:1100,status:'ok'},
+  {id:'709333950',name:'RNG AirPods 4 черный красный',qty:50,stock:23,buy:658,sell:1100,status:'ok'},
+  {id:'359500987',name:'RNG AirPods Pro 3 черный',qty:30,stock:22,buy:658,sell:1100,status:'ok'},
+  {id:'232924531',name:'RNG AirPods Pro 3 черный красный',qty:30,stock:13,buy:658,sell:1100,status:'ok'},
+  {id:'027520099',name:'ARM AirPods 4 черный',qty:15,stock:20,buy:624,sell:1000,status:'ok'},
+  {id:'759800715',name:'ЗН 3.25 4.0x1.7 Lenovo orginal',qty:26,stock:181,buy:2550,sell:3900,status:'ok'},
+  {id:'360088723',name:'Напольный штатив CLASSNO CS-TN072',qty:15,stock:18,buy:50,sell:100,status:'ok'},
+  {id:'209410329',name:'Чехол iPad TP-PUR A16 фиолетовый',qty:30,stock:18,buy:4509,sell:7000,status:'ok'},
+  {id:'232736564',name:'Чехол iPad TP-PN A16 розовый',qty:60,stock:118,buy:4577,sell:7000,status:'ok'},
+  {id:'592704294',name:'Чехол iPad TP-BLK A16 черный',qty:60,stock:82,buy:4577,sell:7000,status:'ok'},
+  {id:'174689577',name:'Чехол iPad TP-BLK Air 11 черный',qty:20,stock:14,buy:4509,sell:7000,status:'ok'},
+  {id:'508943850',name:'Чехол KB-BLK Pad 5/5Pro черный',qty:10,stock:0,buy:3384,sell:5200,status:'zero'},
+  {id:'425060994',name:'Чехол KB-PN Pad 2 розовый',qty:10,stock:6,buy:3384,sell:5200,status:'low'},
+  {id:'552422319',name:'Чехол KB-BLK Pad 2 черный',qty:10,stock:8,buy:3384,sell:5200,status:'low'},
+  {id:'667187184',name:'Чехол KB-PN Pad 5/5 Pro розовый',qty:10,stock:4,buy:3384,sell:5200,status:'low'},
+  {id:'291987635',name:'Чехол KB-LC Pad 5/5 Pro сиреневый',qty:15,stock:2,buy:3384,sell:5200,status:'low'},
+  {id:'365698468',name:'Чехол KB-PN Samsung S9 розовый',qty:15,stock:8,buy:3384,sell:5200,status:'low'},
+  {id:'162670094',name:'Чехол TP-BLK Pad SE 11 черный',qty:15,stock:8,buy:4134,sell:6400,status:'low'},
+  {id:'845664340',name:'Чехол TP-BLK Pad Pro 12.1 черный',qty:10,stock:18,buy:4884,sell:7500,status:'ok'},
+  {id:'127509561',name:'Чехол TP-BLK Pad 6/6 Pro черный',qty:20,stock:6,buy:4059,sell:6300,status:'low'},
+  {id:'198620088',name:'Чехол KB-LC iPad mini 6/7 сиреневый',qty:10,stock:1,buy:3234,sell:5000,status:'low'},
+  {id:'013789085',name:'Чехол KB-PN iPad mini 6/7 розовый',qty:10,stock:8,buy:3234,sell:5000,status:'low'},
+  {id:'593185836',name:'Чехол KB-LBL iPad mini 6/7 голубой',qty:5,stock:4,buy:3234,sell:5000,status:'low'},
+  {id:'926588537',name:'Чехол TP-BLK Samsung A9+ черный',qty:15,stock:11,buy:4434,sell:6800,status:'ok'},
+  {id:'859521883',name:'TNF AirPods Pro 3 черный',qty:30,stock:0,buy:920,sell:1500,status:'zero'},
+  {id:'091931461',name:'CLASSNO CS-Fon 2x3м черный',qty:40,stock:46,buy:2840,sell:4400,status:'ok'},
+  {id:'589144079',name:'CLASSNO CS-Fon 3x3м белый',qty:20,stock:27,buy:3965,sell:6100,status:'ok'},
+  {id:'493608762',name:'CLASSNO CS-Fon 3x3м зеленый',qty:20,stock:26,buy:3965,sell:6100,status:'ok'},
+  {id:'759364831',name:'CLASSNO CS-Fon 3x3м серый',qty:20,stock:27,buy:3965,sell:6100,status:'ok'},
+  {id:'879657992',name:'CLASSNO CS-Fon 3x3м черный',qty:20,stock:28,buy:3965,sell:6100,status:'ok'},
+  {id:'512488554',name:'CLASSNO CS-Fon 3x4м зеленый',qty:20,stock:29,buy:5022,sell:7800,status:'ok'},
+  {id:'251595247',name:'Стекло SG iPad A16',qty:33,stock:27,buy:1161,sell:1800,status:'ok'},
+  {id:'071102004',name:'Стекло SG iPad Pro 11 2024/2025',qty:30,stock:7,buy:1161,sell:1800,status:'low'},
+  {id:'375775797',name:'SS-01 Macbook Air Ч 16 розовый',qty:10,stock:12,buy:2736,sell:4200,status:'ok'},
+  {id:'917288736',name:'SS-01 Macbook Air 14 бордовый',qty:10,stock:2,buy:2736,sell:4200,status:'low'},
+  {id:'097671322',name:'SS-01 Macbook Air 14 розовый',qty:10,stock:10,buy:2736,sell:4200,status:'low'},
+  {id:'949514506',name:'SS-01 Macbook Air 14 серый',qty:10,stock:5,buy:2736,sell:4200,status:'low'},
+  {id:'948229806',name:'SS-01 Macbook Air 14 синий',qty:10,stock:7,buy:2736,sell:4200,status:'low'},
+  {id:'062859992',name:'SS-01 Macbook Air Ч 16 бордовый',qty:10,stock:1,buy:2736,sell:4200,status:'low'},
+  {id:'133417426',name:'SS-01 Macbook Air Ч 16 серый',qty:10,stock:4,buy:2736,sell:4200,status:'low'},
+  {id:'705872339',name:'SS-01 Macbook Air Ч 16 синий',qty:10,stock:17,buy:2736,sell:4200,status:'ok'},
+  {id:'082243494',name:'Чехол KB-BLK iPad Air 11 черный',qty:30,stock:11,buy:3152,sell:4900,status:'ok'},
+  {id:'485839468',name:'Чехол iPad TP-PUR Air 11 фиолетовый',qty:30,stock:10,buy:4577,sell:7100,status:'low'},
+  {id:'210126063',name:'CLASSNO CS-M01 голубой',qty:30,stock:1,buy:800,sell:1400,status:'low'},
+  {id:'517453706',name:'CLASSNO CS-M01 розовый',qty:30,stock:81,buy:800,sell:1400,status:'ok'},
+  {id:'288304610',name:'CLASSNO CS-M01 черный',qty:30,stock:97,buy:800,sell:1400,status:'ok'},
+  {id:'505974677',name:'Apple Watch 40mm черный',qty:100,stock:306,buy:185,sell:350,status:'ok'},
+  {id:'670375403',name:'Apple Watch 44мм черный',qty:100,stock:306,buy:185,sell:350,status:'ok'},
+  {id:'025585363',name:'Apple Watch Series 46 мм черный',qty:100,stock:229,buy:185,sell:350,status:'ok'},
+  {id:'473190122',name:'CS-01 Apple Watch 40мм прозрачный',qty:150,stock:127,buy:185,sell:350,status:'ok'},
+  {id:'840924907',name:'Apple watch Series 41 мм черный',qty:50,stock:12,buy:185,sell:350,status:'ok'},
+  {id:'088487960',name:'CLASSNO CS-KIT розовый',qty:50,stock:47,buy:1678,sell:2600,status:'ok'},
+  {id:'709426156',name:'CLASSNO CS-KIT голубой',qty:30,stock:18,buy:1678,sell:2600,status:'ok'},
+  {id:'128295775',name:'CLASSNO CS-1080 Mag Ultra 10000мАч черный',qty:50,stock:39,buy:3727,sell:5800,status:'ok'},
+  {id:'467133287',name:'CLASSNO CS-Solar Power Bank 50000мАч черный',qty:20,stock:0,buy:4123,sell:6400,status:'zero'},
+  {id:'394275334',name:'CLASSNO ZL-Fon 2x3м зеленый',qty:40,stock:78,buy:2772,sell:4300,status:'ok'},
+  {id:'075420061',name:'Основной Стойка П 2.6/3м',qty:60,stock:26,buy:6165,sell:9500,status:'ok'},
+  {id:'905333011',name:'CLASSNO CS-Fon 2x3м белый',qty:40,stock:47,buy:2772,sell:4300,status:'ok'},
+  {id:'405613250',name:'CLASSNO CS-Fon 2x3м серый',qty:10,stock:36,buy:2772,sell:4300,status:'ok'},
+  {id:'944890555',name:'ЗН Зарядка Type-C 65Вт черный',qty:195,stock:800,buy:1962,sell:3000,status:'ok'},
+  {id:'857253948',name:'ЗН CS-Lenovo 45W 2.25A 4.0x1.7',qty:44,stock:6,buy:1962,sell:3000,status:'low'},
+  {id:'830949556',name:'ЗН Asus 45W 19V 2.37A 4.0x1.35',qty:51,stock:78,buy:1963,sell:3000,status:'ok'},
+  {id:'373154061',name:'CLASSNO CS-BT01',qty:1000,stock:1790,buy:159,sell:300,status:'ok'},
+  {id:'999524190',name:'Шарик 180градус',qty:200,stock:801,buy:130,sell:250,status:'ok'},
+  {id:'775926997',name:'Держатель CLASSNO CS-Der01 черный',qty:200,stock:745,buy:97,sell:180,status:'ok'},
+  {id:'955860932',name:'CS-Сердичка AirPods Pro 2 розовый',qty:400,stock:293,buy:249,sell:450,status:'ok'},
+  {id:'678661867',name:'CS-Сердичка AirPods Pro 3 розовый',qty:50,stock:76,buy:249,sell:450,status:'ok'},
+  {id:'092353390',name:'CS-Сердичка AirPods 4 розовый',qty:1000,stock:483,buy:249,sell:450,status:'ok'},
+  {id:'582353308',name:'CS-Сердичка AirPods 3 розовый',qty:50,stock:476,buy:249,sell:450,status:'ok'},
+  {id:'819493806',name:'SIL Apple AirPods 4 голубой',qty:30,stock:33,buy:112,sell:200,status:'ok'},
+  {id:'030381267',name:'SIL-GREN AirPods 4 зеленый',qty:30,stock:65,buy:112,sell:200,status:'ok'},
+  {id:'580209869',name:'SIL-BLU AirPods 4 синий',qty:50,stock:219,buy:112,sell:200,status:'ok'},
+  {id:'219705076',name:'SIL-BLK AirPods 4 черный',qty:50,stock:216,buy:112,sell:200,status:'ok'},
+  {id:'171645012',name:'ЗН Lenovo USB 20V 65W 3.25A Flat',qty:50,stock:86,buy:1596,sell:2500,status:'ok'},
+  {id:'058275010',name:'Напольный штатив CS-HT2100 черный',qty:11,stock:443,buy:2350,sell:3600,status:'ok'},
+  {id:'592196764',name:'Стекло А16',qty:50,stock:418,buy:300,sell:500,status:'ok'},
+  {id:'848814048',name:'Стекло CLASSNO Xiaomi Redmi Pad 2 11дюйм',qty:15,stock:40,buy:300,sell:500,status:'ok'},
+  {id:'937760244',name:'ЗН Samsung CS-Sm5530 19V 3.16A',qty:6,stock:18,buy:2000,sell:3100,status:'ok'},
+  {id:'999524196',name:'Лампа RGB 600',qty:3,stock:1,buy:5850,sell:9000,status:'low'},
+  {id:'999524198',name:'Лампа RGB 800',qty:2,stock:1,buy:7550,sell:11500,status:'low'},
+  {id:'999524180',name:'Настольный штатив',qty:8,stock:16,buy:1600,sell:2500,status:'ok'},
+  {id:'472923948',name:'CLASSNO Watch Dream белый',qty:200,stock:70,buy:429,sell:700,status:'ok'},
+  {id:'793362822',name:'CS-01 Apple Watch 41мм прозрачный',qty:6,stock:19,buy:450,sell:750,status:'ok'},
+  {id:'464129531',name:'Зарядка Garmin',qty:100,stock:111,buy:347,sell:600,status:'ok'},
+  {id:'111341438',name:'ЧМ Macbook Air 13.6 серый',qty:25,stock:15,buy:1127,sell:1800,status:'ok'},
+  {id:'125708101',name:'ЧМ Macbook Pro 13 прозрачный',qty:50,stock:40,buy:1127,sell:1800,status:'ok'},
+  {id:'966242039',name:'ЧМ Macbook Air 13.6 прозрачный',qty:200,stock:427,buy:1127,sell:1800,status:'ok'},
+  {id:'135583811',name:'ЧМ MacBook Air 13.6 прозрачный блесткам',qty:20,stock:61,buy:1407,sell:2200,status:'ok'},
+  {id:'165814428',name:'CS-Mag AirPods Pro 3 черный',qty:50,stock:29,buy:660,sell:1100,status:'ok'},
+  {id:'952068361',name:'CS-Mag AirPods 4 черный',qty:100,stock:35,buy:660,sell:1100,status:'ok'},
+  {id:'199712975',name:'Чехол CS-Mag Buds черный',qty:50,stock:28,buy:586,sell:1000,status:'ok'},
+];
+
+const STATS = {total:148, totalStock:19332, zeroStock:4, lowStock:25, totalValue:21777998};
+
+let prodSortKey = 'name', prodSortAsc = true, prodFilter = 'all', prodSearch = '';
+
+function renderProducts() {
+  let filtered = ALL_PRODUCTS.filter(p => {
+    const matchFilter = prodFilter === 'all' || p.status === prodFilter;
+    const matchSearch = !prodSearch || p.name.toLowerCase().includes(prodSearch) || p.id.includes(prodSearch);
+    return matchFilter && matchSearch;
+  });
+  if (prodSortKey) {
+    filtered.sort((a,b) => {
+      const v = prodSortAsc ? 1 : -1;
+      if (typeof a[prodSortKey] === 'string') return a[prodSortKey].localeCompare(b[prodSortKey]) * v;
+      return (a[prodSortKey] - b[prodSortKey]) * v;
+    });
+  }
+  const tbody = document.getElementById('prod-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = filtered.map((p, i) => {
+    const sum = (p.stock * p.buy).toLocaleString('ru');
+    const statusPill = p.status === 'zero' ? '<span class="pill r">Нөл</span>' : p.status === 'low' ? '<span class="pill r">Аз</span>' : '<span class="pill g">Норма</span>';
+    const rowBg = p.status === 'zero' ? 'background:rgba(224,82,82,0.04);' : '';
+    return `<tr style="${rowBg}">
+      <td class="m" style="font-size:11px;">${i+1}</td>
+      <td><div style="font-size:13px;font-weight:500;">${p.name}</div></td>
+      <td style="text-align:right;font-size:11px;color:var(--text3);">${p.id}</td>
+      <td style="text-align:right;font-weight:700;${p.status!=='ok'?'color:var(--kaspi);':''}">${p.stock.toLocaleString('ru')}</td>
+      <td style="text-align:right;">${p.buy.toLocaleString('ru')}</td>
+      <td style="text-align:right;color:var(--accent);">${p.sell.toLocaleString('ru')}</td>
+      <td style="text-align:right;font-weight:600;">${sum}</td>
+      <td style="text-align:center;">${statusPill}</td>
+    </tr>`;
+  }).join('');
+  const count = document.getElementById('prod-count');
+  if (count) count.textContent = filtered.length + ' позиция';
+  const totalEl = document.getElementById('prod-total');
+  if (totalEl) {
+    const totalVal = filtered.reduce((s,p) => s + p.stock * p.buy, 0);
+    totalEl.innerHTML = `<span>Жалпы: <strong>${filtered.length} позиция</strong></span><span>Қойма құны: <strong style="color:var(--green);">${totalVal.toLocaleString('ru')} ₸</strong></span>`;
+  }
+  // Остатки table
+  const ostTable = document.getElementById('ost-table');
+  if (ostTable) {
+    ostTable.innerHTML = '<thead><tr><th>Тауар</th><th style="text-align:right;">Қалдық</th><th style="text-align:right;">Закуп ₸</th><th style="text-align:right;">Сату ₸</th><th style="text-align:center;">Күй</th></tr></thead><tbody>' +
+    ALL_PRODUCTS.map(p => `<tr><td style="font-size:12px;">${p.name}</td><td style="text-align:right;font-weight:600;${p.status!=='ok'?'color:var(--kaspi);':''}">${p.stock.toLocaleString('ru')}</td><td style="text-align:right;">${p.buy.toLocaleString('ru')}</td><td style="text-align:right;color:var(--accent);">${p.sell.toLocaleString('ru')}</td><td style="text-align:center;">${p.status==='zero'?'<span class=\'pill r\'>Нөл</span>':p.status==='low'?'<span class=\'pill r\'>Аз</span>':'<span class=\'pill g\'>Норма</span>'}</td></tr>`).join('') + '</tbody>';
+  }
+}
+
+function filterProducts() {
+  prodSearch = (document.getElementById('prod-search')?.value || '').toLowerCase();
+  prodFilter = document.getElementById('prod-filter')?.value || 'all';
+  renderProducts();
+}
+
+function sortTable(key) {
+  if (prodSortKey === key) prodSortAsc = !prodSortAsc;
+  else { prodSortKey = key; prodSortAsc = true; }
+  renderProducts();
+}
+
+function exportCSV() {
+  const rows = [['Артикул','Атауы','Қалдық','Закуп','Сату','Сумма']];
+  ALL_PRODUCTS.forEach(p => rows.push([p.id, p.name, p.stock, p.buy, p.sell, p.stock*p.buy]));
+  const csv = rows.map(r => r.join(';')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'qoimam_sklad.csv'; a.click();
+}
+
+// Init products on page load
+setTimeout(renderProducts, 500);
+// ========== END СКЛАД DATA ==========
+
+// ========== KASPI LIVE API ==========
+const KASPI_TOKEN = 'n2dEWgSNwnqnHv+7X8wISJQYe8qMzC6fzghaRiLDg/k=';
+const KASPI_BASE = 'https://kaspi.kz/shop/api/v2';
+
+async function loadKaspiData() {
+  const el = id => document.getElementById(id);
+  if (!el('kaspi-status')) return;
+  el('kaspi-status').textContent = 'Жүктелуде...';
+  try {
+    const headers = {'X-Auth-Token': KASPI_TOKEN, 'Content-Type':'application/json'};
+
+    // Today date range
+    const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+    // Fetch ALL orders - multiple statuses
+    const [newR, procR, compR, cancelR] = await Promise.all([
+      fetch(`${KASPI_BASE}/orders?page[number]=0&page[size]=100&filter[orders][state]=NEW`, {headers}),
+      fetch(`${KASPI_BASE}/orders?page[number]=0&page[size]=100&filter[orders][state]=PROCESSING`, {headers}),
+      fetch(`${KASPI_BASE}/orders?page[number]=0&page[size]=100&filter[orders][state]=COMPLETED`, {headers}),
+      fetch(`${KASPI_BASE}/orders?page[number]=0&page[size]=100&filter[orders][state]=CANCELLED`, {headers}),
+    ]);
+
+    const [newData, procData, compData, cancelData] = await Promise.all([
+      newR.json(), procR.json(), compData.json(), cancelR.json()
+    ]);
+
+    // Process orders
+    const allNew = (newData.data || []);
+    const allProc = (procData.data || []);
+    const allComp = (compData.data || []);
+    const allCancel = (cancelData.data || []);
+
+    // Today's orders
+    const todayNew = allNew.filter(o => o.attributes?.creationDate >= todayStart);
+    const todayComp = allComp.filter(o => o.attributes?.creationDate >= todayStart);
+    const todayCancel = allCancel.filter(o => o.attributes?.creationDate >= todayStart);
+
+    const totalToday = todayNew.length + allProc.length;
+    const revenue = todayComp.reduce((s,o) => s + (o.attributes?.totalPrice || 0), 0);
+    const cancelCount = todayCancel.length;
+
+    // Update UI
+    if(el('k-live-new')) el('k-live-new').textContent = todayNew.length;
+    if(el('k-live-proc')) el('k-live-proc').textContent = allProc.length;
+    if(el('k-live-comp')) el('k-live-comp').textContent = todayComp.length;
+    if(el('k-live-cancel')) el('k-live-cancel').textContent = cancelCount;
+    if(el('k-live-rev')) el('k-live-rev').textContent = revenue.toLocaleString('ru') + ' ₸';
+    if(el('k-live-total')) el('k-live-total').textContent = totalToday;
+    if(el('kaspi-status')) el('kaspi-status').textContent = 'Жаңартылды: ' + new Date().toLocaleTimeString('ru');
+    if(el('kaspi-err')) el('kaspi-err').style.display = 'none';
+
+    // Render order list
+    renderKaspiOrders([...allNew, ...allProc].slice(0, 20));
+
+  } catch(e) {
+    console.error('Kaspi API error:', e);
+    if(el('kaspi-status')) el('kaspi-status').textContent = 'Қате: ' + (e.message || 'CORS немесе желі қатесі');
+    if(el('kaspi-err')) {
+      el('kaspi-err').style.display = 'block';
+      el('kaspi-err').textContent = 'CORS бөгеді. Vercel деплойдан кейін жұмыс істейді.';
+    }
+    // Show mock data for demo
+    loadKaspiMock();
+  }
+}
+
+function loadKaspiMock() {
+  const el = id => document.getElementById(id);
+  const mock = {new:5, proc:3, comp:23, cancel:1, rev:'847 200', total:28};
+  if(el('k-live-new')) el('k-live-new').textContent = mock.new;
+  if(el('k-live-proc')) el('k-live-proc').textContent = mock.proc;
+  if(el('k-live-comp')) el('k-live-comp').textContent = mock.comp;
+  if(el('k-live-cancel')) el('k-live-cancel').textContent = mock.cancel;
+  if(el('k-live-rev')) el('k-live-rev').textContent = mock.rev + ' ₸';
+  if(el('k-live-total')) el('k-live-total').textContent = mock.total;
+  const mockOrders = [
+    {id:'#KSP-88421', name:'Чехол RM A16 серый', price:'2 400 ₸', status:'NEW', time:'09:42'},
+    {id:'#KSP-88420', name:'ЗН Type-C 65Вт черный', price:'3 000 ₸', status:'PROCESSING', time:'09:31'},
+    {id:'#KSP-88419', name:'SIL AirPods 4 прозрачный', price:'350 ₸', status:'NEW', time:'09:18'},
+    {id:'#KSP-88418', name:'CLASSNO CS-BT01', price:'300 ₸', status:'PROCESSING', time:'08:55'},
+    {id:'#KSP-88417', name:'Пленка Macbook Air 15.3', price:'900 ₸', status:'NEW', time:'08:41'},
+  ];
+  renderKaspiOrders(mockOrders);
+}
+
+function renderKaspiOrders(orders) {
+  const el = document.getElementById('kaspi-orders-list');
+  if (!el) return;
+  el.innerHTML = orders.map(o => {
+    const status = o.status || (o.attributes?.state) || 'NEW';
+    const price = o.price || (o.attributes?.totalPrice ? o.attributes.totalPrice.toLocaleString('ru') + ' ₸' : '—');
+    const name = o.name || (o.attributes?.entries?.[0]?.name) || 'Тауар';
+    const orderId = o.id || (o.attributes?.code) || '—';
+    const time = o.time || new Date(o.attributes?.creationDate || Date.now()).toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'});
+    const pillClass = status==='NEW'?'b':status==='PROCESSING'?'a':status==='COMPLETED'?'g':'r';
+    const statusName = {NEW:'Жаңа', PROCESSING:'Өңделуде', COMPLETED:'Аяқталды', CANCELLED:'Бас тартылды'}[status]||status;
+    return `<div class="ko">
+      <div class="ko-top"><span class="ko-id">${orderId}</span><span class="ko-price">${price}</span></div>
+      <div class="ko-name">${name}</div>
+      <div class="ko-st"><div class="kdot" style="background:var(--${pillClass==='b'?'accent':pillClass==='a'?'amber':pillClass==='g'?'green':'kaspi'})"></div><span class="pill ${pillClass}" style="font-size:10px;padding:2px 7px;">${statusName}</span><span style="margin-left:auto;font-size:11px;color:var(--text3);">${time}</span></div>
+    </div>`;
+  }).join('') || '<div style="padding:20px;text-align:center;color:var(--text3);font-size:13px;">Белсенді заказ жоқ</div>';
+}
+
+// Auto-refresh every 5 minutes
+setInterval(loadKaspiData, 5 * 60 * 1000);
+// ========== END KASPI LIVE API ==========
+
+
+window.addEventListener('load',()=>{
+  setTimeout(initCharts,300);
+});
+</script>
+</body>
+</html>
